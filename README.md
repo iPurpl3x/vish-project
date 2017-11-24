@@ -1,2 +1,2 @@
-# wish-project
+# vish-project
 Stackoverflow developper survey results visualisation (MIN-VISH Project)
