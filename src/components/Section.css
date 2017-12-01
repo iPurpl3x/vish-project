@@ -1,0 +1,8 @@
+.Section {
+    margin: 12px;
+}
+
+.Section-paper {
+    min-height: 150px;
+    padding: 12px;
+}
