@@ -1,7 +1,7 @@
 {
     "name": "vish-project",
     "version": "0.1.0",
-    "description": "Stackoverflow developper survey results visualisation (MIN-VISH Project)",
+    "description": "Stackoverflow developer survey results visualisation (MIN-VISH Project)",
     "main": "index.js",
     "private": true,
     "dependencies": {
