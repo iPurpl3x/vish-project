@@ -1,29 +1,35 @@
 {
-  "name": "vish-project",
-  "version": "1.0.0",
-  "description": "Stackoverflow developper survey results visualisation (MIN-VISH Project)",
-  "main": "index.js",
-  "dependencies": {
-    "d3": "^4.12.0",
-    "react": "^16.1.1"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "npm start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/iPurpl3x/vish-project.git"
-  },
-  "keywords": [
-    "stackoverflow",
-    "developer",
-    "survey"
-  ],
-  "author": "Rafael Horvat, Simon Meyer",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/iPurpl3x/vish-project/issues"
-  },
-  "homepage": "https://github.com/iPurpl3x/vish-project#readme"
+    "name": "vish-project",
+    "version": "0.1.0",
+    "description": "Stackoverflow developper survey results visualisation (MIN-VISH Project)",
+    "main": "index.js",
+    "private": true,
+    "dependencies": {
+        "d3": "^4.12.0",
+        "react": "^16.2.0",
+        "react-dom": "^16.2.0",
+        "react-scripts": "^1.0.17"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/iPurpl3x/vish-project.git"
+    },
+    "keywords": [
+        "stackoverflow",
+        "developer",
+        "survey"
+    ],
+    "author": "Rafael Horvat, Simon Meyer",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/iPurpl3x/vish-project/issues"
+    },
+    "homepage": "https://github.com/iPurpl3x/vish-project#readme"
 }
