@@ -4,19 +4,21 @@ import './App.css'
 import WorldMapContainer from './components/WorldMapContainer'
 import Sections from './components/Sections'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import * as d3 from 'd3'
-
-const data_schema_path = require('./data/survey_results_schema.csv')
-d3.csv(data_schema_path, (data_schema) => {
-	console.log("data_schema:", data_schema)
-})
-
-const data_path = require('./data/survey_results_public.csv')
-d3.csv(data_path, (data) => {
-	console.log("data:", data)
-})
+import DataLoader from './data/DataLoader'
 
 class App extends Component {
+
+	constructor() {
+		super()
+		this.d = new DataLoader()
+		this.d.on('dataloader:loaded_data', this.storeCountryCount)
+	}
+
+	storeCountryCount = () => {
+		const countries = this.d.countryCount
+		console.log(countries)
+	}
+
 	render() {
 		return (<MuiThemeProvider>
 			<div className="App">
