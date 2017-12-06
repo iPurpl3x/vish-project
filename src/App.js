@@ -17,6 +17,8 @@ class App extends Component {
 	storeCountryCount = () => {
 		const countries = this.d.countryCount
 		console.log(countries)
+		const perCountryData = this.d.perCountryData
+		console.log(perCountryData)
 	}
 
 	render() {
