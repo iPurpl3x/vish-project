@@ -1,38 +1,44 @@
+import DataContainer from './DataContainer'
+
 export default class DataUtils {
-	static getCountryCount(state) {
-
-		const {data} = state
-
-		const add = (countries, name) => {
-			if (typeof countries[name] !== 'number') {
-				countries[name] = 0
-			}
-			countries[name]++
+	static _add(counters, label) {
+		if (typeof counters[label] !== 'number') {
+			counters[label] = 0
 		}
+		counters[label]++
+	}
 
-		const store = (store, data) => {
-			if (!data['Country']) {
-				throw('Could not access "Country" attribute of data')
-			}
-			const name = data['Country']
-			if (!store[name]) {
-				store[name] = []
-			}
-			store[name].push(data)
+	static _store(store, data, attr_label) {
+		const label = data[attr_label]
+		if (!store[label]) {
+			store[label] = []
 		}
+		store[label].push(data)
+	}
 
-		const countries = {}
-		const perCountry = {}
-		data.map(response => {
-			if (response['Country']) {
-				add(countries, response['Country'])
-				store(perCountry, response)
+	static getCount(data, attr_label, store = undefined) {
+		const counters = {}
+		data.map(answers => {
+
+			if (answers[attr_label]) {
+				const values = answers[attr_label].split('; ')
+				for (let value of values) {
+					DataUtils._add(counters, value)
+					if (store)
+						DataUtils._store(store, answers, attr_label)
+				}
+			} else {
+				throw('Could not read attribute from answer')
 			}
 		})
 
-		state.countryCount = countries
-		state.perCountry = perCountry
-		return state
+		if (store) {
+			for (let label in store) {
+				store[label] = new DataContainer(store[label])
+			}
+		}
 
+		return counters
 	}
+
 }

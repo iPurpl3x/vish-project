@@ -15,10 +15,16 @@ class App extends Component {
 	}
 
 	storeCountryCount = () => {
-		const countries = this.d.countryCount
+		const countries = this.d.country_counters
 		console.log(countries)
-		const perCountryData = this.d.perCountryData
+		const perCountryData = this.d.per_country_data
 		console.log(perCountryData)
+		const gender = this.d.container.gender
+		console.log(gender)
+		const change_world = this.d.container.change_world
+		console.log(change_world)
+		const prog_lang = this.d.container.prog_lang
+		console.log(prog_lang)
 	}
 
 	render() {
