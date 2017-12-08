@@ -32,6 +32,7 @@ class App extends Component {
     }
 
     _changeCountry = (country) => {
+        this.d.changeCountry(country)
         this.setState({currentCountry: country})
     }
 
