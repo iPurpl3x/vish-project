@@ -35,13 +35,17 @@ class App extends Component {
     }
 
 	render() {
+        const {
+            currentCountry,
+            per_country_data,
+            per_gender_data,
+            per_work_start_data
+        } = this.state
 
-        const {currentCountry, per_country_data} = this.state
         let dataContainer = this.d.container
         if (currentCountry) {
             dataContainer = per_country_data[currentCountry]
         }
-        console.log(this.state)
 
 		return (<MuiThemeProvider>
 			<div className="App">
@@ -50,9 +54,12 @@ class App extends Component {
                     title = "Stack Overflow developer survey results visualisation"
                 />
 				<WorldMapContainer
-                    per_country={per_country_data}
+                    perCountry={per_country_data}
                     handleChange={this._changeCountry}/>
-				<Sections dataContainer={dataContainer}/>
+				<Sections
+                    dataContainer={dataContainer}
+                    perGender={per_gender_data}
+                    perWorkStart={per_work_start_data}/>
 			</div>
 		</MuiThemeProvider>)
 	}

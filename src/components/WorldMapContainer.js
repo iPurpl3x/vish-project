@@ -14,13 +14,13 @@ class WorldMapContainer extends Component {
     }
 
     _handleChange = (event, index, value) => {
-        const {handleChange, per_country} = this.props
+        const {handleChange, perCountry} = this.props
         this.setState({value})
-        handleChange(Object.keys(per_country)[value])
+        handleChange(Object.keys(perCountry)[value])
     }
 
     render() {
-        const {per_country} = this.props
+        const {perCountry} = this.props
         return (<div className='WorldMapContainer'>
             <Paper className='WorldMapContainer-paper'>
                 <h3>World map</h3>
@@ -29,7 +29,7 @@ class WorldMapContainer extends Component {
                     value={this.state.value}
                     onChange={this._handleChange}
                 >
-                    {Object.keys(per_country).map((country, i) =>(
+                    {Object.keys(perCountry).map((country, i) =>(
                         <MenuItem key={i} value={i} primaryText={country}/>
                     ))}
                 </SelectField>
