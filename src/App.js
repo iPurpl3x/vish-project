@@ -8,31 +8,51 @@ import DataLoader from './data/DataLoader'
 
 class App extends Component {
 
-	constructor() {
-		super()
-		this.d = new DataLoader()
-		this.d.on('dataloader:loaded_data', this.storeCountryCount)
-	}
+    constructor() {
+        super()
+        this.d = new DataLoader()
+        this.d.on('dataloader:loaded_data', this._useData)
+        this.state = {
+            currentCountry: undefined,
+            per_gender_data: {},
+            per_country_data: {},
+            per_work_start_data: {},
+            country_counters: {}
+        }
+    }
 
-	storeCountryCount = () => {
-		const countries = this.d.country_counters
-		console.log(countries)
-		const perCountryData = this.d.per_country_data
-		console.log(perCountryData)
-		const gender = this.d.container.gender
-		console.log(gender)
-		const change_world = this.d.container.change_world
-		console.log(change_world)
-		const prog_lang = this.d.container.prog_lang
-		console.log(prog_lang)
-	}
+    _useData = () => {
+        this.setState({
+            per_gender_data:this.d.per_gender_data,
+            per_country_data:this.d.per_country_data,
+            per_work_start_data:this.d.per_work_start_data,
+            country_counters:this.d.country_counters
+        })
+    }
+
+    _changeCountry = (country) => {
+        this.setState({currentCountry: country})
+    }
 
 	render() {
+
+        const {currentCountry, per_country_data} = this.state
+        let dataContainer = this.d.container
+        if (currentCountry) {
+            dataContainer = per_country_data[currentCountry]
+        }
+        console.log(this.state)
+
 		return (<MuiThemeProvider>
 			<div className="App">
-				<AppBar showMenuIconButton={false} title="Stack Overflow developer survey results visualisation"/>
-				<WorldMapContainer/>
-				<Sections/>
+                <AppBar
+                    showMenuIconButton = {false}
+                    title = "Stack Overflow developer survey results visualisation"
+                />
+				<WorldMapContainer
+                    per_country={per_country_data}
+                    handleChange={this._changeCountry}/>
+				<Sections dataContainer={dataContainer}/>
 			</div>
 		</MuiThemeProvider>)
 	}

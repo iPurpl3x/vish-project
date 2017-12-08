@@ -15,8 +15,6 @@ class Sections extends Component {
 		this.state = {
 			sections
 		}
-
-
 	}
 
     _up = (event) => {
@@ -45,6 +43,18 @@ class Sections extends Component {
 
 	render() {
 		const {sections} = this.state
+        const {dataContainer} = this.props
+        if (dataContainer) {
+            console.log(dataContainer.avg_salary)
+            console.log(dataContainer.gender)
+            console.log(dataContainer.work_start)
+            console.log(dataContainer.change_world)
+            console.log(dataContainer.education)
+            console.log(dataContainer.study_field)
+            console.log(dataContainer.online_job_profile)
+            console.log(dataContainer.prog_lang)
+            console.log(dataContainer.framework)
+        }
 
 		return (<div className='Sections'>
 			{sections.map((title, i) => <Section
