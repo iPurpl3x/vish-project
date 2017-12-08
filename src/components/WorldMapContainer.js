@@ -14,10 +14,8 @@ class WorldMapContainer extends Component {
       super()
       this.state = {
         worlddata: [],
-        cities: [
+        bubbles: [
           { name: "Tokyo",          coordinates: [139.6917,35.6895],  population: 37843000 },
-          { name: "Jakarta",        coordinates: [106.8650,-6.1751],  population: 30539000 },
-          { name: "Delhi",          coordinates: [77.1025,28.7041],   population: 24998000 },
         ],
       }
 
@@ -96,12 +94,12 @@ class WorldMapContainer extends Component {
                   </g>
                   <g className="markers">
                     {
-                      this.state.cities.map((city, i) => (
+                      this.state.bubbles.map((bubble, i) => (
                         <circle
                           key={ `marker-${i}` }
-                          cx={ this.projection()(city.coordinates)[0] }
-                          cy={ this.projection()(city.coordinates)[1] }
-                          r={ city.population / 3000000 }
+                          cx={ this.projection()(bubble.coordinates)[0] }
+                          cy={ this.projection()(bubble.coordinates)[1] }
+                          r={ bubble.population / 3000000 }
                           fill="#E91E63"
                           stroke="#FFFFFF"
                           className="marker"
