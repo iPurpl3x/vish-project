@@ -28,6 +28,7 @@ class App extends Component {
             per_work_start_data:this.d.per_work_start_data,
             country_counters:this.d.country_counters
         })
+
     }
 
     _changeCountry = (country) => {
@@ -39,7 +40,8 @@ class App extends Component {
             currentCountry,
             per_country_data,
             per_gender_data,
-            per_work_start_data
+            per_work_start_data,
+            country_counters
         } = this.state
 
         let dataContainer = this.d.container
@@ -55,6 +57,7 @@ class App extends Component {
                 />
 				<WorldMapContainer
                     perCountry={per_country_data}
+                    countryCounters={country_counters}
                     handleChange={this._changeCountry}/>
 				<Sections
                     dataContainer={dataContainer}
