@@ -10,11 +10,21 @@ class UpDownButtons extends Component {
 		const {children, index, up, down} = this.props
 
 		return (<div className='UpDownButtons'>
-            <IconButton id={index+'_s'} tooltip='Move section up' onClick={up}>
-                <ArrowUp/>
+            <IconButton
+                id={index+'_s'}
+                tooltip='Move section up'
+                onClick={up}
+                className='UpDownButtons-b'
+            >
+                <ArrowUp className='UpDownButtons-i'/>
             </IconButton>
-            <IconButton id={index+'_s'} tooltip='Move section down' onClick={down}>
-                <ArrowDown/>
+            <IconButton
+                id={index+'_s'}
+                tooltip='Move section down'
+                onClick={down}
+                className='UpDownButtons-b'
+            >
+                <ArrowDown className='UpDownButtons-i'/>
             </IconButton>
         </div>)
 	}

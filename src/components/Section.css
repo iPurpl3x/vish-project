@@ -2,7 +2,20 @@
     margin: 12px;
 }
 
+.Section h3 {
+    margin-top: 0;
+}
+
 .Section-paper {
     min-height: 150px;
     padding: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.Section-body {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    flex-grow: 1;
 }

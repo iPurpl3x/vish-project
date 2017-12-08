@@ -2,12 +2,15 @@ import React, {Component} from 'react'
 import Section from './Section'
 import AvgSalSection from './AvgSalSection'
 import ChangeWorldSection from './ChangeWorldSection'
+import WorkStartSection from './WorkStartSection'
+import ProgLangSection from './ProgLangSection'
+import EduSection from './EduSection'
 
 class Sections extends Component {
 
 	constructor() {
 		super()
-		const sections = [
+		const section_names = [
             'Average salary',
             'Change world',
             'Work starting time',
@@ -15,51 +18,89 @@ class Sections extends Component {
             'Online job profile, Programming language & framework'
         ]
 		this.state = {
-			sections
+			section_names
 		}
 	}
 
-    _up = (event) => {
-        let index = parseInt(event.target.parentElement.parentElement.id)
-        if (isNaN(index))
-            index = parseInt(event.target.parentElement.parentElement.parentElement.id)
+    _up = (index) => {
         if (index === 0) return
-        const sections = [...this.state.sections]
-    	const movingDown = sections[index-1]
-    	sections[index-1] = sections[index]
-    	sections[index] = movingDown
-        this.setState({sections})
+        const section_names = [...this.state.section_names]
+    	const movingDown = section_names[index-1]
+    	section_names[index-1] = section_names[index]
+    	section_names[index] = movingDown
+        this.setState({section_names})
     }
 
-    _down = (event) => {
-        let index = parseInt(event.target.parentElement.parentElement.id)
-        if (isNaN(index))
-            index = parseInt(event.target.parentElement.parentElement.parentElement.id)
-        const sections = [...this.state.sections]
-        if (index === sections.length-1) return
-    	const movingUp = sections[index+1]
-    	sections[index+1] = sections[index]
-    	sections[index] = movingUp
-        this.setState({sections})
+    _down = (index) => {
+        const section_names = [...this.state.section_names]
+        if (index === section_names.length-1) return
+    	const movingUp = section_names[index+1]
+    	section_names[index+1] = section_names[index]
+    	section_names[index] = movingUp
+        this.setState({section_names})
     }
 
 	render() {
-		const {sections} = this.state
+		const {section_names} = this.state
         const {dataContainer={}, perGender, perWorkStart} = this.props
 
+        const sections = section_names.map((name, i) => {
+            switch (name) {
+                case 'Average salary':
+                    return (
+                        <AvgSalSection
+                            key={i}
+                            index={i}
+                            up={this._up}
+                            down={this._down}
+                            avgSalary={dataContainer.avg_salary}
+                            perGender={perGender}
+                        />
+                    )
+
+                case 'Change world':
+                    return (
+                        <ChangeWorldSection
+                            key={i}
+                            index={i}
+                            up={this._up}
+                            down={this._down}
+                            changeWorld={dataContainer.change_world}
+                        />
+                    )
+
+                case 'Work starting time':
+                    return (
+                        <WorkStartSection
+                            key={i}
+                            index={i}
+                            up={this._up}
+                            down={this._down}
+                        />
+                    )
+                case 'Education & study field':
+                    return (
+                        <EduSection
+                            key={i}
+                            index={i}
+                            up={this._up}
+                            down={this._down}
+                        />
+                    )
+                case 'Online job profile, Programming language & framework':
+                    return (
+                        <ProgLangSection
+                            key={i}
+                            index={i}
+                            up={this._up}
+                            down={this._down}
+                        />
+                    )
+            }
+        })
+
 		return (<div className='Sections'>
-            <AvgSalSection
-                index={sections.indexOf('Average salary')}
-                up={this._up}
-                down={this._down}
-                avgSalary={dataContainer.avg_salary}
-                perGender={perGender}
-            />
-            <ChangeWorldSection
-                index={sections.indexOf('Change world')}
-                up={this._up}
-                down={this._down}
-            />
+            {sections.map((Comp, i) => Comp)}
 		</div>)
 	}
 }
