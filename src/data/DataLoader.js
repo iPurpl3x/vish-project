@@ -30,6 +30,12 @@ export default class DataLoader extends Emitter {
             this._per_work_start = per_work_start
             this.trigger('dataloader:loaded_data')
         })
+
+        const data_coords_path = require('./countrycoordinates.csv')
+        d3.csv(data_coords_path, (data_coords) => {
+            this._data_coords = data_coords
+            this.trigger('dataloader:loaded_coords')
+        })
     }
 
     get container() {
