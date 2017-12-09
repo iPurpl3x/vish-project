@@ -77,6 +77,8 @@ class Sections extends Component {
                             index={i}
                             up={this._up}
                             down={this._down}
+                            perWorkStart={perWorkStart}
+                            workStart={dataContainer.work_start}
                         />
                     )
                 case 'Education & study field':
