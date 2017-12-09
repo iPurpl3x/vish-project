@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import CircularProgress from 'material-ui/CircularProgress'
 import Section from './Section'
 import './AvgSalSection.css'
 import * as d3 from 'd3'
@@ -6,14 +7,14 @@ import * as d3 from 'd3'
 export default class AvgSalSection extends Component {
 
     componentDidUpdate() {
-        document.getElementById('gender-bar-chart').innerHTML = ''
         const {perGender, genderCounts} = this.props
 
         // If yet no data
         if (!Object.keys(perGender).length) return
 
         const data = []
-        for (let gender of ['NA', 'Male', 'Female']) {
+        for (let gender of ['NA', 'Male', 'Female', 'Other']) {
+            if (!perGender[gender]) continue
             data.push({
                 gender,
                 avg_salary: perGender[gender].avg_salary,
@@ -21,12 +22,15 @@ export default class AvgSalSection extends Component {
             })
         }
 
+        data.sort((a, b) => parseInt(b.avg_salary)-parseInt(a.avg_salary))
+
         // Define colors
         // https://coolors.co/20bf55-0b4f6c-fffaff-01baef-757575
         const colors = {
-            NA:'#757575',
+            Other:'#757575',
             Male:'#01BAEF',
-            Female:'#20BF55'
+            Female:'#20BF55',
+            NA:'#0B4F6C'
         }
         // set the dimensions and margins of the graph
         const margin = {
@@ -36,7 +40,7 @@ export default class AvgSalSection extends Component {
                 left: 50
             },
             width = 400 - margin.left - margin.right,
-            height = 100 - margin.top - margin.bottom
+            height = 180 - margin.top - margin.bottom
 
         // set the ranges
         const y = d3
@@ -51,13 +55,22 @@ export default class AvgSalSection extends Component {
         // append the svg object to the body of the page
         // append a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
-        const svg = d3
-            .select("#gender-bar-chart")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        document.getElementById('gender-bar-chart').innerHTML = ''
+        let svg = d3
+            .select('#gender-bar-chart')
+            .append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+        svg
+            .append('text')
+            .text('Gender')
+            .attr('font-size', 13)
+            .attr('font-weight', 'bold')
+            .attr('fill', 'black')
+            .attr('transform', 'translate(0,11)')
+        svg = svg
+            .append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
 
         // Scale the range of the data in the domains
         x.domain([ 0, d3.max(data, d => d.count) ])
@@ -65,32 +78,96 @@ export default class AvgSalSection extends Component {
 
         // append the rectangles for the bar chart
         svg
-            .selectAll(".bar")
+            .selectAll('.bar')
             .data(data)
             .enter()
-            .append("rect")
-            .attr("class", "bar")
-            //.attr("x", function(d) { return x(d.count); })
-            .attr("width", d => x(d.count))
-            .attr("y", d => y(d.gender))
-            .attr("height", y.bandwidth())
+            .append('rect')
+            .attr('class', 'bar')
+            //.attr('x', function(d) { return x(d.count); })
+            .attr('width', d => x(d.count))
+            .attr('y', d => y(d.gender))
+            .attr('height', y.bandwidth())
             .attr('fill', d => colors[d.gender])
+            .on("mousemove", d => {
+                d3.select('#gender-tooltip')
+                    .style("left", d3.event.pageX - 50 + "px")
+                    .style("top", d3.event.pageY - 40 + "px")
+                    .style("display", "inline-block")
+                    .style("color", colors[d.gender])
+                    .html("Number of respondants: " +d.count.toLocaleString())
+
+            })
+            .on("mouseout", (d, i) => {
+                d3.select('#gender-tooltip').style("display", "none");
+            })
 
         // add the x Axis
         svg
-            .append("g")
-            .attr("transform", "translate(0," + height + ")")
+            .append('g')
+            .attr('transform', 'translate(0,' + height + ')')
             .call(d3.axisBottom(x))
-                .selectAll("text")
-                .style("text-anchor", "end")
-                .attr("dx", "-1.2em")
-                .attr("dy", ".14em")
-                .attr("transform", "rotate(-65)")
+                .selectAll('text')
+                .style('text-anchor', 'end')
+                .attr('font-family', 'monospace')
+                .attr('dx', '-1.2em')
+                .attr('dy', '.14em')
+                .attr('transform', 'rotate(-65)')
 
         // add the y Axis
         svg
-            .append("g")
+            .append('g')
             .call(d3.axisLeft(y))
+                .selectAll('text')
+                .attr('font-family', 'monospace')
+
+
+
+        // avg salary per gender
+
+        // set the ranges
+        const sal_y = d3
+            .scaleBand()
+            .range([height, 0])
+            .padding(0.1)
+
+        const sal_x = d3
+            .scaleLinear()
+            .range([0, width])
+
+        document.getElementById('gender-avg-sal').innerHTML = ''
+        let sal_svg = d3
+            .select('#gender-avg-sal')
+            .append('svg')
+            .attr('width', 80)
+            .attr('height', height + margin.top + margin.bottom)
+        sal_svg
+            .append('text')
+            .text('Avg. salary')
+            .attr('font-size', 13)
+            .attr('font-weight', 'bold')
+            .attr('fill', 'black')
+            .attr('transform', 'translate(0,11)')
+        sal_svg = sal_svg
+            .append('g')
+            .attr('transform', 'translate(0,' + margin.top + ')')
+
+        sal_svg
+            .selectAll('.avg_sal')
+            .data(data)
+            .enter()
+            .append('text')
+                .text(d => isNaN(d.avg_salary)
+                    ? ""
+                    : parseInt(d.avg_salary).toLocaleString()+' $'
+                )
+                .attr('class', 'avg_sal')
+                .attr('font-size', 16)
+                .attr('font-family', 'monospace')
+                .attr('width', 40)
+                .attr('transform', 'translate(0,12)')
+                .attr('fill', d => colors[d.gender])
+                .attr('y', d => y(d.gender))
+                .attr('height', y.bandwidth())
     }
 
     render() {
@@ -115,31 +192,31 @@ export default class AvgSalSection extends Component {
 
         const x = d => d.label
         const xScale = 'ordinal'
-        const yTicks = [10, "%"]
+        const yTicks = [10, '%']
 
         return (<Section index={index} id={index + '_s'} up={() => up(index)} down={() => down(index)}>
-            <h3>{'Average salary'}</h3>
+            {/* <h3>{'Average salary'}</h3> */}
             <div className='Section-body'>
+                <div className='flex-center' style={{flexDirection: 'row'}}>
+                    <div id='gender-bar-chart' className='flex-center'>
+                        <CircularProgress />
+                    </div>
+                    <div id='gender-avg-sal'></div>
+                    <div id='gender-tooltip'></div>
+                </div>
                 <GlobalAvg avgSalary={avgSalary}/>
-                <div id='gender-bar-chart'></div>
             </div>
         </Section>)
     }
 }
 
 const GlobalAvg = (props) => (
-    <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexGrow: '1'
-    }}>
-        <h4 style={{marginTop: 0, marginBottom: 12}}>Global average</h4>
-        <div style={{fontFamily: 'monospace'}}>
+    <div className='flex-center' style={{borderLeft: 'solid 1px rgba(0,0,0,0.6)'}}>
+        <h4 style={{marginTop: 0, marginBottom: 12}}>Average salary (global)</h4>
+        <div style={{fontFamily: 'monospace', fontSize: 22}}>
             {parseInt(props.avgSalary)
-                ? parseInt(props.avgSalary).toLocaleString()
-                :'...'
+                ? parseInt(props.avgSalary).toLocaleString()+' $'
+                : <CircularProgress />
             }
         </div>
     </div>
