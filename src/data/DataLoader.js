@@ -49,6 +49,10 @@ export default class DataLoader extends Emitter {
         this.trigger('dataloader:loaded_data')
     }
 
+    get data_schema() {
+        return this._data_schema
+    }
+
     get container() {
         return this._data_container
     }

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import CircularProgress from 'material-ui/CircularProgress'
 import Section from './Section'
 import * as d3 from 'd3'
 
@@ -63,16 +64,6 @@ export default class WorkStartSection extends Component {
             .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
-        const path = svg
-            .selectAll(".solidArc")
-            .data(pie(data))
-            .enter()
-            .append("path")
-            .attr("fill", '#20BF55')
-            .attr("class", "solidArc")
-            .attr("stroke", "gray")
-            .attr("d", arc)
-
         const outerPath = svg
             .selectAll(".outlineArc")
             .data(pie(data))
@@ -82,13 +73,25 @@ export default class WorkStartSection extends Component {
             .attr("stroke", "gray")
             .attr("class", "outlineArc")
             .attr("d", outlineArc)
+
+        const path = svg
+            .selectAll(".solidArc")
+            .data(pie(data))
+            .enter()
+            .append("path")
+            .attr("fill", '#20BF55')
+            .attr("class", "solidArc")
+            .attr("stroke", "white")
+            .attr("d", arc)
         }
 
         render() {
             const {index, up, down} = this.props
             return (<Section index={index} up={() => up(index)} down={() => down(index)}>
                 <h3>{'Work starting time'}</h3>
-                <div id='work-time-radial'></div>
+                <div id='work-time-radial' className='flex-center'>
+                    <CircularProgress />
+                </div>
             </Section>)
         }
     }

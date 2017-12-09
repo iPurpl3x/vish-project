@@ -42,7 +42,7 @@ class Sections extends Component {
 
 	render() {
 		const {section_names} = this.state
-        const {dataContainer={}, perGender, perWorkStart} = this.props
+        const {dataContainer={}, perGender, perWorkStart, data_schema} = this.props
 
         const sections = section_names.map((name, i) => {
             switch (name) {
@@ -66,6 +66,7 @@ class Sections extends Component {
                             index={i}
                             up={this._up}
                             down={this._down}
+                            data_schema={data_schema}
                             changeWorld={dataContainer.change_world}
                         />
                     )

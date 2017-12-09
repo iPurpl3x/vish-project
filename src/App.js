@@ -34,7 +34,8 @@ class App extends Component {
             per_gender_data:this.d.per_gender_data,
             per_country_data:this.d.per_country_data,
             per_work_start_data:this.d.per_work_start_data,
-            country_counters:this.d.country_counters
+            country_counters:this.d.country_counters,
+            data_schema:this.d.data_schema
         })
 
     }
@@ -51,7 +52,8 @@ class App extends Component {
             per_gender_data,
             per_work_start_data,
             country_counters,
-            data_coords
+            data_coords,
+            data_schema
         } = this.state
 
         let dataContainer = this.d.container
@@ -73,7 +75,8 @@ class App extends Component {
 				<Sections
                     dataContainer={dataContainer}
                     perGender={per_gender_data}
-                    perWorkStart={per_work_start_data}/>
+                    perWorkStart={per_work_start_data}
+                    data_schema={data_schema}/>
 			</div>
 		</MuiThemeProvider>)
 	}
