@@ -7,7 +7,7 @@ export default class AvgSalSection extends Component {
 
     componentDidUpdate() {
         document.getElementById('gender-bar-chart').innerHTML = ''
-        const {perGender} = this.props
+        const {perGender, genderCounts} = this.props
 
         // If yet no data
         if (!Object.keys(perGender).length) return
@@ -16,7 +16,8 @@ export default class AvgSalSection extends Component {
         for (let gender of ['NA', 'Male', 'Female']) {
             data.push({
                 gender,
-                avg_salary: perGender[gender].avg_salary
+                avg_salary: perGender[gender].avg_salary,
+                count: genderCounts[gender]
             })
         }
 
@@ -59,7 +60,7 @@ export default class AvgSalSection extends Component {
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
         // Scale the range of the data in the domains
-        x.domain([ 0, d3.max(data, d => d.avg_salary) ])
+        x.domain([ 0, d3.max(data, d => d.count) ])
         y.domain(data.map(d => d.gender))
 
         // append the rectangles for the bar chart
@@ -69,8 +70,8 @@ export default class AvgSalSection extends Component {
             .enter()
             .append("rect")
             .attr("class", "bar")
-            //.attr("x", function(d) { return x(d.avg_salary); })
-            .attr("width", d => x(d.avg_salary))
+            //.attr("x", function(d) { return x(d.count); })
+            .attr("width", d => x(d.count))
             .attr("y", d => y(d.gender))
             .attr("height", y.bandwidth())
             .attr('fill', d => colors[d.gender])
@@ -119,18 +120,27 @@ export default class AvgSalSection extends Component {
         return (<Section index={index} id={index + '_s'} up={() => up(index)} down={() => down(index)}>
             <h3>{'Average salary'}</h3>
             <div className='Section-body'>
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexGrow: '1'
-                }}>
-                    <h4 style={{marginTop: 0, marginBottom: 12}}>Global average</h4>
-                    <div style={{fontFamily: 'monospace'}}>{parseInt(avgSalary) || '...'}</div>
-                </div>
+                <GlobalAvg avgSalary={avgSalary}/>
                 <div id='gender-bar-chart'></div>
             </div>
         </Section>)
     }
 }
+
+const GlobalAvg = (props) => (
+    <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexGrow: '1'
+    }}>
+        <h4 style={{marginTop: 0, marginBottom: 12}}>Global average</h4>
+        <div style={{fontFamily: 'monospace'}}>
+            {parseInt(props.avgSalary)
+                ? parseInt(props.avgSalary).toLocaleString()
+                :'...'
+            }
+        </div>
+    </div>
+)

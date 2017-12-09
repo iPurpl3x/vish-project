@@ -55,6 +55,7 @@ class Sections extends Component {
                             down={this._down}
                             avgSalary={dataContainer.avg_salary}
                             perGender={perGender}
+                            genderCounts={dataContainer.gender}
                         />
                     )
 
