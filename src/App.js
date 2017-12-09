@@ -12,13 +12,21 @@ class App extends Component {
         super()
         this.d = new DataLoader()
         this.d.on('dataloader:loaded_data', this._useData)
+        this.d.on('dataloader:loaded_coords', this._onCoords)
         this.state = {
             currentCountry: undefined,
             per_gender_data: {},
             per_country_data: {},
             per_work_start_data: {},
-            country_counters: {}
+            country_counters: {},
+            data_coords: []
         }
+    }
+
+    _onCoords = () => {
+        this.setState({
+            data_coords:this.d.data_coords,
+        })
     }
 
     _useData = () => {
@@ -42,7 +50,8 @@ class App extends Component {
             per_country_data,
             per_gender_data,
             per_work_start_data,
-            country_counters
+            country_counters,
+            data_coords
         } = this.state
 
         let dataContainer = this.d.container
@@ -59,6 +68,7 @@ class App extends Component {
 				<WorldMapContainer
                     perCountry={per_country_data}
                     countryCounters={country_counters}
+                    dataCoords={data_coords}
                     handleChange={this._changeCountry}/>
 				<Sections
                     dataContainer={dataContainer}

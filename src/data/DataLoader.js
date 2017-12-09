@@ -76,4 +76,10 @@ export default class DataLoader extends Emitter {
             ...this._per_work_start
         }
     }
+
+    get data_coords() {
+        return [
+            ...this._data_coords
+        ]
+    }
 }
