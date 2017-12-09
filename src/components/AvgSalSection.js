@@ -8,6 +8,10 @@ export default class AvgSalSection extends Component {
     componentDidUpdate() {
         document.getElementById('gender-bar-chart').innerHTML = ''
         const {perGender} = this.props
+
+        // If yet no data
+        if (!Object.keys(perGender).length) return
+
         const data = []
         for (let gender of ['NA', 'Male', 'Female']) {
             data.push({
