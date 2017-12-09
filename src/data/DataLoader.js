@@ -38,6 +38,17 @@ export default class DataLoader extends Emitter {
         })
     }
 
+    changeCountry(country_name) {
+        const data = this._per_country[country_name]._data
+        const per_gender = {}
+        utils.getCount(data, 'Gender', per_gender)
+        this._per_gender = per_gender
+        const per_work_start = {}
+        utils.getCount(data, 'WorkStart', per_work_start)
+        this._per_work_start = per_work_start
+        this.trigger('dataloader:loaded_data')
+    }
+
     get container() {
         return this._data_container
     }
