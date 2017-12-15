@@ -150,25 +150,26 @@ export default class WorkStartSection extends Component {
                     return 'translate(' + (x/h * radius) +  ',' +
                        (y/h * radius) +  ')';
                 })
-                .attr("dy", ".35em")
+                .attr('dy', '.35em')
                 .attr('text-anchor', d => {
                     return (d.endAngle + d.startAngle) / 2 > Math.PI ? 'end' :'start'
                 })
                 .attr('style', 'text-shadow: 3px 3px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff')
-                .on("mousemove", d => {
+                .on('mousemove', d => {
                     d3.select('#gender-tooltip')
-                        .style("left", d3.event.pageX - 50 + "px")
-                        .style("top", d3.event.pageY - 100 + "px")
-                        .style("display", "inline-block")
-                        .html("<b>"+d.data.startTime+"</b>"
-                            +"<br>Number of respondants: " +d.data.count.toLocaleString()
-                            +"<br>("
+                        .style('left', d3.event.pageX - 50 + 'px')
+                        .style('top', d3.event.pageY - 100 + 'px')
+                        .style('display', 'inline-block')
+                        .style('color', 'black')
+                        .html('<b>'+d.data.startTime+'</b>'
+                            +'<br>Number of respondants: ' +d.data.count.toLocaleString()
+                            +'<br>('
                             +((d.data.count/totalCount)*100).toFixed(2)
-                            +" %)")
+                            +' %)')
 
                 })
-                .on("mouseout", () => {
-                    d3.select('#gender-tooltip').style("display", "none");
+                .on('mouseout', () => {
+                    d3.select('#gender-tooltip').style('display', 'none');
                 })
 
 
