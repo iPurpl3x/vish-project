@@ -5,7 +5,7 @@ import * as d3 from 'd3'
 
 export default class ChangeWorldSection extends Component {
 
-    componentDidUpdate() {
+    renderGraph() {
         const {changeWorld} = this.props
 
         if (!changeWorld)
@@ -33,7 +33,7 @@ export default class ChangeWorldSection extends Component {
                 count: changeWorld[agreeing]
             })
         }
-        console.log(data)
+        //console.log(data)
 
         const width = 600,
             height = 50
@@ -64,7 +64,7 @@ export default class ChangeWorldSection extends Component {
             .data(data)
             .enter()
             .append("rect")
-            .attr("fill", (d, i) => i==0? '#0B4F6C' :'#20BF55')
+            .attr("fill", (d, i) => i==0? '#757575' :'#20BF55')
             .attr('opacity', (d, i) => o(i))
             .attr("width", d => x(d.count))
             .attr('x', (d, i) => i==0?0:x(data[i-1].stack))
@@ -79,9 +79,9 @@ export default class ChangeWorldSection extends Component {
                     .style("color", 'rgba(0,0,0,'+Math.max(0.3 ,o(i))+')')
                     .html("<b>"+d.agreeing+"</b>"
                         +"<br>Number of respondants: " +d.count.toLocaleString()
-                        +"<br>"
-                        +((d.count/data[data.length-1].stack)*100).toPrecision(4)
-                        +" %")
+                        +"<br>("
+                        +((d.count/data[data.length-1].stack)*100).toFixed(2)
+                        +" %)")
 
             })
             .on("mouseout", (d, i) => {
@@ -92,6 +92,9 @@ export default class ChangeWorldSection extends Component {
 
     render(){
         const {index, up, down, data_schema} = this.props
+
+        setImmediate(this.renderGraph.bind(this))
+
         let question = ''
         if (data_schema) {
             for (let q of data_schema) {
