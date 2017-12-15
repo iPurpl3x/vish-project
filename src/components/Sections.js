@@ -105,6 +105,7 @@ class Sections extends Component {
                             index={i}
                             up={this._up}
                             down={this._down}
+                            progLangCounts={dataContainer.prog_lang}
                         />
                     )
             }
