@@ -6,81 +6,50 @@ import ReactBubbleChart from 'react-bubble-chart'
 
 export default class ProgLangSection extends Component {
 
-    // renderProgLang() {
-    //
-    //     const {progLangCounts} = this.props
-    //
-    //     // If yet no data
-    //     if (!Object.keys(progLangCounts || {}).length) return
-    //
-    //     const data = []
-    //     let highestCount = 0
-    //     let totalCount = 0
-    //     for (let lang of Object.keys(progLangCounts)) {
-    //         data.push({
-    //             lang,
-    //             count: progLangCounts[lang]
-    //         })
-    //         totalCount += progLangCounts[lang]
-    //         if (progLangCounts[lang] > highestCount) {
-    //             highestCount = progLangCounts[lang]
-    //         }
-    //     }
-    //
-    //     const width = document.getElementById('prog-lang-bubbles').offsetWidth,
-    //         height = document.getElementById('prog-lang-bubbles').offsetWidth
-    //
-    //     const chart = bubbleChart().width(width).height(height)
-    //     //console.log(bubbleChart().width()) // returns 600
-    //
-    //     document.getElementById('prog-lang-bubbles').innerHTML = ''
-    //     const svg = d3.select('#prog-lang-bubbles')
-    //         .append('svg')
-    //         .attr('width', width)
-    //         .attr('height', height)
-    //         .append('g')
-    //         .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')')
-    //         .data(data)
-    //         .call(chart)
-    //
-    //
-    //
-    //     const scaleRadius = d3
-    //         .scaleSqrt()
-    //         .domain([0, highestCount])
-    //         .range([2, 25])
-    //
-    //     const colorCircles = d3.scaleOrdinal(['#0B4F6C', '#01BAEF', '#20BF55', '#757575'])
-    //
-    //
-    //
-    // }
+    renderProgLang() {
+
+        const {progLangCounts} = this.props
+
+        // If yet no data
+        if (!Object.keys(progLangCounts || {}).length) return
+
+        const data = []
+        let highestCount = 0
+        let totalCount = 0
+        for (let lang of Object.keys(progLangCounts)) {
+            data.push({
+                lang,
+                count: progLangCounts[lang]
+            })
+            totalCount += progLangCounts[lang]
+            if (progLangCounts[lang] > highestCount) {
+                highestCount = progLangCounts[lang]
+            }
+        }
+
+        const width = document.getElementById('prog-lang-bubbles').offsetWidth
+
+        const colorCircles = d3.scaleOrdinal(['#0B4F6C', '#01BAEF', '#20BF55', '#757575'])
+
+        document.getElementById('prog-lang-bubbles').innerHTML = ''
+        const svg = d3.select('#prog-lang-bubbles')
+            .append('svg')
+            .attr('width', width)
+            .attr('height', width)
+            .append('g')
+            .attr('transform', 'translate(' + width / 2 + ',' + width / 2 + ')')
+
+        const scaleRadius = d3
+            .scaleSqrt()
+            .domain([0, highestCount])
+            .range([2, 25])
+
+    }
 
     render() {
         const {index, up, down, progLangCounts} = this.props
 
-        //setImmediate(this.renderProgLang.bind(this))
-        const _data = []
-        if (Object.keys(progLangCounts || {}).length) {
-            let highestCount = 0
-            let totalCount = 0
-            for (let lang of Object.keys(progLangCounts)) {
-                _data.push({
-                    lang,
-                    count: progLangCounts[lang]
-                })
-                totalCount += progLangCounts[lang]
-                if (progLangCounts[lang] > highestCount) {
-                    highestCount = progLangCounts[lang]
-                }
-            }
-        }
-        const data = _data.map(d => ({
-            _id: d.lang,
-            value: d.count,
-            colorValue: 'black',
-            selected: false
-        }))
+        setImmediate(this.renderProgLang.bind(this))
 
         return (
             <Section
