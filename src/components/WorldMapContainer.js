@@ -19,6 +19,8 @@ class WorldMapContainer extends Component {
       }
       this.handleCountryClick = this.handleCountryClick.bind(this)
       this.handleMarkerClick = this.handleMarkerClick.bind(this)
+      this.handleMarkerMouseOver = this.handleMarkerMouseOver.bind(this)
+      this.handleMarkerMouseOut = this.handleMarkerMouseOut.bind(this)
     }
 
     projection() {
@@ -33,6 +35,23 @@ class WorldMapContainer extends Component {
 
     handleMarkerClick(i) {
       console.log("Marker: ", this.state.bubbles[i])
+      this._handleChange(null, this.state.bubbles[i].country, i)
+    }
+
+    handleMarkerMouseOver(i,event) {
+      console.log("MouseOver: ", this.state.bubbles[i])
+      d3.select('#gender-tooltip')
+        .style("left", event.clientX - 50 + "px")
+        .style("top", event.clientY - 85 + "px")
+        .style("display", "inline-block")
+        .style("color", '#000000')
+        .html("<b>"+this.state.bubbles[i].country+"</b>"
+          +"<br> count: "+this.state.bubbles[i].count)
+    }
+
+    handleMarkerMouseOut(i) {
+      d3.select('#gender-tooltip')
+        .style("display", "none");
     }
 
     setCountryBubbles(){
@@ -48,6 +67,9 @@ class WorldMapContainer extends Component {
         })
         //console.log(coordsarray)
         //console.log(Object.keys(this.props.countryCounters))
+        coordsarray.sort((a, b) => {
+          return a.country - b.country
+        })
         this.setState({
           bubbles: coordsarray,
           highestcount: highestcount,
@@ -77,9 +99,10 @@ class WorldMapContainer extends Component {
     }
 
     _handleChange = (event, index, value) => {
+        const countriesSort = Object.keys(this.props.perCountry).sort()
         const {handleChange, perCountry} = this.props
         this.setState({value})
-        handleChange(Object.keys(perCountry)[value])
+        handleChange(countriesSort[value])
     }
 
     render() {
@@ -90,6 +113,9 @@ class WorldMapContainer extends Component {
 
         const {perCountry} = this.props
         setImmediate(this.setCountryBubbles.bind(this))
+        const countriesSort = Object.keys(perCountry).sort()
+        let index = countriesSort.indexOf("I prefer not to say");
+        countriesSort.splice(index, 1)
         return (<div className='WorldMapContainer'>
             <Paper className='WorldMapContainer-paper'>
                 <h3>World map</h3>
@@ -100,13 +126,13 @@ class WorldMapContainer extends Component {
                     value={this.state.value}
                     onChange={this._handleChange}
                 >
-                    {Object.keys(perCountry).map((country, i) =>(
+                    {countriesSort.map((country, i) =>(
                         <MenuItem key={i} value={i} primaryText={country}/>
                     ))}
                 </SelectField>
 
                 {/* worldmap */}
-                <svg width={ 1280 } height={ 720 } viewBox="0 0 800 450">
+                <svg width={ 1280 } height={ 720 } viewBox="0 0 900 300">
                   <g className="countries">
                     {
                       this.state.worlddata.map((d,i) => (
@@ -114,7 +140,8 @@ class WorldMapContainer extends Component {
                           key={ `path-${ i }` }
                           d={ geoPath().projection(this.projection())(d) }
                           className="country"
-                          fill={ `rgba(38,50,56,${ 1 / this.state.worlddata.length * i})` }
+                          //fill={ `rgba(38,50,56,${ 1 / this.state.worlddata.length * i})` }
+                          fill="#757575"
                           stroke="#FFFFFF"
                           strokeWidth={ 0.5 }
                           onClick={ () => this.handleCountryClick(i) }
@@ -135,10 +162,12 @@ class WorldMapContainer extends Component {
                           cx={ this.projection()(bubble.coordinates)[0] }
                           cy={ this.projection()(bubble.coordinates)[1] }
                           r={ scale(bubble.count / 100)}
-                          fill="#E91E63"
-                          stroke="#FFFFFF"
+                          fill="#01BAEF"
+                          stroke="#000000"
                           className="marker"
                           onClick={ () => this.handleMarkerClick(i) }
+                          onMouseOver={ (event) => this.handleMarkerMouseOver(i,event)}
+                          onMouseOut={ (event) => this.handleMarkerMouseOut(i,event)}
                         />
                       )})
                     }
