@@ -6,13 +6,14 @@ import * as d3 from 'd3'
 
 export default class AvgSalSection extends Component {
 
-    componentDidUpdate() {
+    renderGraph() {
         const {perGender, genderCounts} = this.props
 
         // If yet no data
         if (!Object.keys(perGender).length) return
 
         const data = []
+        let totalCount = 0
         for (let gender of ['NA', 'Male', 'Female', 'Other']) {
             if (!perGender[gender]) continue
             data.push({
@@ -20,6 +21,7 @@ export default class AvgSalSection extends Component {
                 avg_salary: perGender[gender].avg_salary,
                 count: genderCounts[gender]
             })
+            totalCount += genderCounts[gender]
         }
 
         data.sort((a, b) => parseInt(b.avg_salary)-parseInt(a.avg_salary))
@@ -27,10 +29,10 @@ export default class AvgSalSection extends Component {
         // Define colors
         // https://coolors.co/20bf55-0b4f6c-fffaff-01baef-757575
         const colors = {
-            Other:'#757575',
+            Other:'#0B4F6C',
             Male:'#01BAEF',
             Female:'#20BF55',
-            NA:'#0B4F6C'
+            NA:'#757575'
         }
         // set the dimensions and margins of the graph
         const margin = {
@@ -91,10 +93,13 @@ export default class AvgSalSection extends Component {
             .on("mousemove", d => {
                 d3.select('#gender-tooltip')
                     .style("left", d3.event.pageX - 50 + "px")
-                    .style("top", d3.event.pageY - 40 + "px")
+                    .style("top", d3.event.pageY - 70 + "px")
                     .style("display", "inline-block")
                     .style("color", colors[d.gender])
-                    .html("Number of respondants: " +d.count.toLocaleString())
+                    .html("Number of respondants: " +d.count.toLocaleString()
+                        +"<br>("
+                        +((d.count/totalCount)*100).toFixed(2)
+                        +" %)")
 
             })
             .on("mouseout", (d, i) => {
@@ -173,6 +178,8 @@ export default class AvgSalSection extends Component {
     render() {
         const {index, up, down, avgSalary, perGender} = this.props
 
+        setImmediate(this.renderGraph.bind(this))
+
         if (!perGender) {
             return null
         }
@@ -181,7 +188,7 @@ export default class AvgSalSection extends Component {
         for (let gender in perGender) {
             chartData.push({label: gender, avg_salary: perGender[gender].avg_salary})
         }
-        console.log(chartData)
+        //console.log(chartData)
 
         const chartSeries = [
             {

@@ -10,13 +10,18 @@ class Sections extends Component {
 
 	constructor() {
 		super()
-		const section_names = [
+		let section_names = [
             'Average salary',
             'Change world',
             'Work starting time',
             'Education & study field',
             'Online job profile, Programming language & framework'
         ]
+        if (localStorage.getItem('section_names')) {
+            section_names = JSON.parse(localStorage.getItem('section_names'))
+        } else {
+            localStorage.setItem('section_names', JSON.stringify(section_names))
+        }
 		this.state = {
 			section_names
 		}
@@ -29,6 +34,7 @@ class Sections extends Component {
     	section_names[index-1] = section_names[index]
     	section_names[index] = movingDown
         this.setState({section_names})
+        localStorage.setItem('section_names', JSON.stringify(section_names))
     }
 
     _down = (index) => {
@@ -38,6 +44,7 @@ class Sections extends Component {
     	section_names[index+1] = section_names[index]
     	section_names[index] = movingUp
         this.setState({section_names})
+        localStorage.setItem('section_names', JSON.stringify(section_names))
     }
 
 	render() {
