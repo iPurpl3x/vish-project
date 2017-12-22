@@ -5,3 +5,11 @@
     justify-content: center;
     align-items: center;
 }
+
+.markers circle {
+    cursor: pointer;
+}
+
+.markers circle:hover {
+    fill: #20BF55;
+}
