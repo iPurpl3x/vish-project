@@ -1,5 +1,6 @@
 .WorldMapContainer-paper {
-    min-height: 300px;
+    max-width: 800px;
+    min-height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;

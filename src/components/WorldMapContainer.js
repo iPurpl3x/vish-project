@@ -161,7 +161,7 @@ class WorldMapContainer extends Component {
                 />
 
                 {/* worldmap */}
-                <svg width={ 1280 } height={ 720 } viewBox='0 0 900 300'>
+                <svg width={ 700 } height={ 300 } viewBox='0 0 800 400'>
                     <g className='countries'>
                         {
                             this.state.worlddata.map((d,i) => (
