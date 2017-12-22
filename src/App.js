@@ -30,10 +30,21 @@ class App extends Component {
                             label='compare'
                             onClick={this.handleCompare}
                         />}
+                    style={{
+                        width: '100%',
+                        marginBottom: 6
+                    }}
                 />
-                <div style={{display: 'flex'}}>
-                    <MainContent compareId={1}/>
-                    {compare && <MainContent compareId={2}/>}
+                <div style={{overflowX: 'scroll'}}>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-around',
+                        width: 'fit-content',
+                        margin: 'auto'
+                    }}>
+                        <MainContent compareId={1}/>
+                        {compare && <MainContent compareId={2}/>}
+                    </div>
                 </div>
             </div>
         </MuiThemeProvider>)
