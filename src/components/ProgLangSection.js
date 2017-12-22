@@ -1,96 +1,11 @@
 import React, {Component} from 'react'
 import CircularProgress from 'material-ui/CircularProgress'
 import Section from './Section'
-import * as d3 from 'd3'
 import ReactBubbleChart from 'react-bubble-chart'
 import ChartTitle from './ChartTitle'
+import renderBubbles from '../renderBubbles'
 
 export default class ProgLangSection extends Component {
-
-    renderBubbles(_data, _id) {
-
-        // If yet no data
-        if (!Object.keys(_data || {}).length)
-            return
-
-        const data = []
-        let totalCount = 0
-        for (let key of Object.keys(_data)) {
-            data.push({id: key, value: _data[key]})
-            totalCount += _data[key]
-        }
-
-        const width = document
-            .getElementById(_id)
-            .offsetWidth
-
-        const colorCircles = d3.scaleOrdinal([
-            '#0B4F6C',
-            '#01BAEF',
-            '#20BF55',
-            '#757575',
-            '#EF6461',
-            '#5F00BA',
-            '#3A4F41'
-        ])
-
-        document
-            .getElementById(_id)
-            .innerHTML = ''
-        const svg = d3
-            .select('#' + _id)
-            .append('svg')
-            .attr('width', width)
-            .attr('height', width)
-
-        const pack = d3
-            .pack()
-            .size([width, width])
-            .padding(1)
-
-        const root = d3
-            .hierarchy({children: data})
-            .sum(d => d.value)
-            .each(d => d.id = d.data.id)
-
-        const node = svg.selectAll('.node')
-          .data(pack(root).leaves())
-          .enter().append('g')
-            .attr('class', 'node')
-            .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')')
-
-        node
-            .append('circle')
-            .attr('id', d => d.id)
-            .attr('r', d => d.r)
-            .style('fill', d => colorCircles(d.id))
-
-        node
-            .append('clipPath')
-            .attr('id', d => 'clip-' + d.id)
-            .append('use')
-            .attr('xlink:href', d => '#' + d.id)
-
-        node
-            .append('text')
-            .attr('clip-path', d => 'url(#clip-' + d.id + ')')
-            .selectAll('tspan')
-            .data(d => {
-                console.log(d.id, d.r)
-                if (d.r < 30 || d.r < 38 && d.id.length > 7)
-                    return []
-                else
-                    return d.id.split(' ')
-            })
-            .enter()
-            .append('tspan')
-            .attr('x', d => -((d.length / 2) * 7.5))
-            .attr('y', (d, i, nodes) => 13 + (i - nodes.length / 2 - 0.5) * 10)
-            .attr('font-family', 'monospace')
-            .attr('fill', 'white')
-            .text(d => d)
-
-    }
 
     render() {
         const {
@@ -103,9 +18,9 @@ export default class ProgLangSection extends Component {
             data_schema
         } = this.props
 
-        setImmediate(this.renderBubbles.bind(this, progLangCounts, 'prog-lang-bubbles'))
-        setImmediate(this.renderBubbles.bind(this, onlineJobProfCounts, 'online-job-prof-bubbles'))
-        setImmediate(this.renderBubbles.bind(this, frameworkCounts, 'framework-bubbles'))
+        setImmediate(renderBubbles.bind(this, progLangCounts, 'prog-lang-bubbles'))
+        setImmediate(renderBubbles.bind(this, onlineJobProfCounts, 'online-job-prof-bubbles'))
+        setImmediate(renderBubbles.bind(this, frameworkCounts, 'framework-bubbles'))
 
         let progLangQuestion = ''
         if (data_schema) {

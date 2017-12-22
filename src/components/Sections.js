@@ -97,6 +97,9 @@ class Sections extends Component {
                             index={i}
                             up={this._up}
                             down={this._down}
+														data_schema={data_schema}
+														educationCounts={dataContainer.education}
+														studyfieldCounts={dataContainer.study_field}
                         />
                     )
                 case 'Online job profile, Programming language & framework':
