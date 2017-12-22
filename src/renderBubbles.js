@@ -62,8 +62,11 @@ export default function renderBubbles(_data, _id) {
                 .style("left", d3.event.pageX - 50 + "px")
                 .style("top", d3.event.pageY - 70 + "px")
                 .style("display", "inline-block")
+                .style("color", "#000000")
                 .html("<b>"+d.id+"</b>"
-                    +"</br>"+ d.value)
+                    +"</br>Number of respondants: "+ d.value
+                    +"</br>("+((d.value/totalCount)*100).toFixed(2)
+                    +") %")
 
         })
         .on("mouseout", (d, i) => {
