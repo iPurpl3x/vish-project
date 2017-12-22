@@ -67,6 +67,7 @@ class WorldMapContainer extends Component {
 
     handleMarkerMouseOut(i) {
       d3.select('#gender-tooltip')
+        .style('position', 'absolute')
         .style('display', 'none');
     }
 
