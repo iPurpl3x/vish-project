@@ -43,6 +43,7 @@ class App extends Component {
                         margin: 'auto'
                     }}>
                         <MainContent compareId={1}/>
+                        <div id='tooltip' style={{zIndex: 10}}></div>
                         {compare && <MainContent compareId={2}/>}
                     </div>
                 </div>

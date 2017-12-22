@@ -80,7 +80,7 @@ export default class ChangeWorldSection extends Component {
             .attr("class", "solidArc")
             .attr("stroke", "white")
             .on("mousemove", (d, i) => {
-                d3.select('#gender-tooltip')
+                d3.select('#tooltip')
                     .style("left", d3.event.pageX - 50 + "px")
                     .style("top", d3.event.pageY - 85 + "px")
                     .style("display", "inline-block")
@@ -93,7 +93,7 @@ export default class ChangeWorldSection extends Component {
 
             })
             .on("mouseout", (d, i) => {
-                d3.select('#gender-tooltip').style("display", "none");
+                d3.select('#tooltip').style("display", "none");
             })
 
     }

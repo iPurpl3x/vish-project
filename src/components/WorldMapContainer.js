@@ -56,7 +56,7 @@ class WorldMapContainer extends Component {
         //console.log('MouseOver: ', this.state.bubbles[i])
         //console.log(event.screenY)
         d3
-            .select('#gender-tooltip')
+            .select('#tooltip')
             .style('left', event.screenX - 50 + 'px')
             .style('top', event.screenY - 85 + 'px')
             .style('display', 'inline-block')
@@ -66,7 +66,7 @@ class WorldMapContainer extends Component {
     }
 
     handleMarkerMouseOut(i) {
-      d3.select('#gender-tooltip')
+      d3.select('#tooltip')
         .style('position', 'absolute')
         .style('display', 'none');
     }

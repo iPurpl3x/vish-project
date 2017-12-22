@@ -64,7 +64,7 @@ class MainContent extends Component {
         }
 
 		return (
-			<div>
+			<div style={{zindex: 0}}>
 				<WorldMapContainer
                     perCountry={per_country_data}
                     countryCounters={country_counters}

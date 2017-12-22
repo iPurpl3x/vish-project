@@ -7,7 +7,7 @@ import QAIcon from 'material-ui/svg-icons/action/question-answer'
 const ChartTitle = (props) => (
     <h3 className='flex-center' {...props} style={{...props.style, flexDirection: 'row'}} >
         <span>{props.text}</span>
-        {props.question.length ? <span style={{ display: 'flex', marginTop: 6, marginLeft: 6, opacity: 0.6 }}>
+        {props.question.length ? <span style={{ display: 'flex', marginTop: 6, marginLeft: 12, opacity: 0.6 }}>
             (<IconMenu
                 iconButtonElement={<IconButton style={{padding: 0, width: 24, height: 24}}><QAIcon /></IconButton>}
                 anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}

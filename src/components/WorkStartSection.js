@@ -28,19 +28,18 @@ export default class WorkStartSection extends Component {
         const data = []
         let highestCount = 0
         let totalCount = 0
-        for (let startTime in workStart) {
-            if (!workStart[startTime])
-                continue
+        for (let startTime of timeKeys) {
             if (startTime == 'NA')
                 continue
+            const count = workStart[startTime] ? workStart[startTime] :0
             data.push({
                 startTime,
-                count: workStart[startTime]
+                count
             })
-            if (workStart[startTime] > highestCount) {
-                highestCount = workStart[startTime]
+            if (count > highestCount) {
+                highestCount = count
             }
-            totalCount += workStart[startTime]
+            totalCount += count
         }
 
         data.sort((a, b) => {
@@ -73,7 +72,7 @@ export default class WorkStartSection extends Component {
             'Strongly disagree'
         ]
         const filteredChangeWorld = {}
-        for (let startTime in workStart) {
+        for (let startTime of timeKeys) {
             if (!perWorkStart[startTime]){
                 filteredChangeWorld[startTime] = []
                 continue
@@ -93,7 +92,7 @@ export default class WorkStartSection extends Component {
             }
             filteredChangeWorld[startTime] = _data
         }
-        //console.log(filteredChangeWorld)
+        //console.log(Object.keys(filteredChangeWorld))
 
         const width = 600,
             height = 550,
@@ -166,7 +165,7 @@ export default class WorkStartSection extends Component {
                 })
                 .attr('style', 'text-shadow: 3px 3px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff')
                 .on('mousemove', d => {
-                    d3.select('#gender-tooltip')
+                    d3.select('#tooltip')
                         .style('left', d3.event.pageX - 50 + 'px')
                         .style('top', d3.event.pageY - 100 + 'px')
                         .style('display', 'inline-block')
@@ -179,7 +178,7 @@ export default class WorkStartSection extends Component {
 
                 })
                 .on('mouseout', () => {
-                    d3.select('#gender-tooltip').style('display', 'none');
+                    d3.select('#tooltip').style('display', 'none');
                 })
 
 
@@ -322,3 +321,31 @@ export default class WorkStartSection extends Component {
         </Section>)
     }
 }
+
+const timeKeys = [
+    "6:00 AM",
+    "10:00 AM",
+    "9:00 AM",
+    "NA",
+    "7:00 AM",
+    "Noon",
+    "3:00 PM",
+    "8:00 AM",
+    "11:00 AM",
+    "2:00 PM",
+    "2:00 AM",
+    "3:00 AM",
+    "1:00 PM",
+    "8:00 PM",
+    "4:00 PM",
+    "7:00 PM",
+    "10:00 PM",
+    "1:00 AM",
+    "5:00 AM",
+    "6:00 PM",
+    "9:00 PM",
+    "5:00 PM",
+    "4:00 AM",
+    "Midnight",
+    "11:00 PM"
+]

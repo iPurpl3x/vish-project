@@ -58,7 +58,7 @@ export default function renderBubbles(_data, _id) {
         .style('fill', d => colorCircles(d.id))
         //append hover to circle
         .on("mousemove", d => {
-            d3.select('#gender-tooltip')
+            d3.select('#tooltip')
                 .style("left", d3.event.pageX - 50 + "px")
                 .style("top", d3.event.pageY - 70 + "px")
                 .style("display", "inline-block")
@@ -70,7 +70,7 @@ export default function renderBubbles(_data, _id) {
 
         })
         .on("mouseout", (d, i) => {
-            d3.select('#gender-tooltip').style("display", "none");
+            d3.select('#tooltip').style("display", "none");
         })
 
     node

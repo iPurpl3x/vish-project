@@ -99,7 +99,7 @@ export default class AvgSalSection extends Component {
             .attr('height', y.bandwidth())
             .attr('fill', d => colors[d.gender])
             .on("mousemove", d => {
-                d3.select('#gender-tooltip')
+                d3.select('#tooltip')
                     .style("left", d3.event.pageX - 50 + "px")
                     .style("top", d3.event.pageY - 70 + "px")
                     .style("display", "inline-block")
@@ -111,7 +111,7 @@ export default class AvgSalSection extends Component {
 
             })
             .on("mouseout", (d, i) => {
-                d3.select('#gender-tooltip').style("display", "none");
+                d3.select('#tooltip').style("display", "none");
             })
 
         // add the x Axis
@@ -217,7 +217,6 @@ export default class AvgSalSection extends Component {
                         <CircularProgress />
                     </div>
                     <div id={'gender-avg-sal'+compareId}></div>
-                    <div id='gender-tooltip'></div>
                 </div>
                 <GlobalAvg avgSalary={avgSalary}/>
             </div>

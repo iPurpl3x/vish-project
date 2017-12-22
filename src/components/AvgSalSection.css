@@ -1,4 +1,4 @@
-#gender-tooltip {
+#tooltip {
     pointer-events: none;
     position: absolute;
     display: none;
@@ -13,7 +13,7 @@
     box-shadow: 0px 3px 9px rgba(0, 0, 0, .15);
 }
 
-#gender-tooltip:after {
+#tooltip:after {
     content: "";
     width: 0;
     height: 0;
