@@ -2,8 +2,18 @@ import React, {Component} from 'react'
 import AppBar from 'material-ui/AppBar'
 import './App.css'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import FlatButton from 'material-ui/FlatButton'
 import MainContent from './components/MainContent'
+
+const theme = {
+    ...lightBaseTheme,
+    palette: {
+        ...lightBaseTheme.palette,
+        primary1Color: '#01BAEF',
+    }
+}
 
 class App extends Component {
 
@@ -20,7 +30,7 @@ class App extends Component {
     render() {
         const {compare} = this.state
 
-        return (<MuiThemeProvider>
+        return (<MuiThemeProvider muiTheme={getMuiTheme(theme)}>
             <div className='App'>
                 <AppBar
                     showMenuIconButton={false}
