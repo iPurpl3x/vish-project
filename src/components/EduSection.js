@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import CircularProgress from 'material-ui/CircularProgress'
 import Section from './Section'
 import ReactBubbleChart from 'react-bubble-chart'
@@ -6,6 +7,12 @@ import ChartTitle from './ChartTitle'
 import renderBubbles from '../renderBubbles'
 
 export default class EduSection extends Component {
+
+    static get contextTypes() {
+        return {
+            compareId: PropTypes.number
+        }
+    }
 
     render() {
         const {
@@ -16,9 +23,10 @@ export default class EduSection extends Component {
             studyfieldCounts,
             data_schema
         } = this.props
+        const {compareId} = this.context
 
-        setImmediate(renderBubbles.bind(this, educationCounts, 'education-bubbles'))
-        setImmediate(renderBubbles.bind(this, studyfieldCounts, 'studyfield-bubbles'))
+        setImmediate(renderBubbles.bind(this, educationCounts, 'education-bubbles'+compareId))
+        setImmediate(renderBubbles.bind(this, studyfieldCounts, 'studyfield-bubbles'+compareId))
 
         let educationQuestion = ''
         if (data_schema) {
@@ -56,10 +64,10 @@ export default class EduSection extends Component {
                         question={studyfieldQuestion}
                         style={{width: '50%'}}
                     />
-                    <div id='education-bubbles' className='flex-center' style={{width: '50%'}}>
+                    <div id={'education-bubbles'+compareId} className='flex-center' style={{width: '50%'}}>
                         <CircularProgress />
                     </div>
-                    <div id='studyfield-bubbles' className='flex-center' style={{width: '50%'}}>
+                    <div id={'studyfield-bubbles'+compareId} className='flex-center' style={{width: '50%'}}>
                         <CircularProgress />
                     </div>
                 </div>

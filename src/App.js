@@ -1,85 +1,43 @@
 import React, {Component} from 'react'
 import AppBar from 'material-ui/AppBar'
 import './App.css'
-import WorldMapContainer from './components/WorldMapContainer'
-import Sections from './components/Sections'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import DataLoader from './data/DataLoader'
+import FlatButton from 'material-ui/FlatButton'
+import MainContent from './components/MainContent'
 
 class App extends Component {
 
-    constructor() {
-        super()
-        this.d = new DataLoader()
-        this.d.on('dataloader:loaded_data', this._useData)
-        this.d.on('dataloader:loaded_coords', this._onCoords)
-        this.state = {
-            currentCountry: undefined,
-            per_gender_data: {},
-            per_country_data: {},
-            per_work_start_data: {},
-            country_counters: {},
-            data_coords: []
-        }
+    state = {
+        compare: false
     }
 
-    _onCoords = () => {
+    handleCompare = () => {
         this.setState({
-            data_coords:this.d.data_coords,
+            compare: !this.state.compare
         })
     }
 
-    _useData = () => {
-        this.setState({
-            per_gender_data:this.d.per_gender_data,
-            per_country_data:this.d.per_country_data,
-            per_work_start_data:this.d.per_work_start_data,
-            country_counters:this.d.country_counters,
-            data_schema:this.d.data_schema
-        })
+    render() {
+        const {compare} = this.state
 
-    }
-
-    _changeCountry = (country) => {
-        this.d.changeCountry(country)
-        this.setState({currentCountry: country})
-    }
-
-	render() {
-        const {
-            currentCountry,
-            per_country_data,
-            per_gender_data,
-            per_work_start_data,
-            country_counters,
-            data_coords,
-            data_schema
-        } = this.state
-
-        let dataContainer = this.d.container
-        if (currentCountry) {
-            dataContainer = per_country_data[currentCountry]
-        }
-
-		return (<MuiThemeProvider>
-			<div className="App">
+        return (<MuiThemeProvider>
+            <div className='App'>
                 <AppBar
-                    showMenuIconButton = {false}
-                    title = "Stack Overflow developer survey results visualisation"
+                    showMenuIconButton={false}
+                    title='Stack Overflow developer survey results visualisation'
+                    iconElementRight={
+                        <FlatButton
+                            label='compare'
+                            onClick={this.handleCompare}
+                        />}
                 />
-				<WorldMapContainer
-                    perCountry={per_country_data}
-                    countryCounters={country_counters}
-                    dataCoords={data_coords}
-                    handleChange={this._changeCountry}/>
-				<Sections
-                    dataContainer={dataContainer}
-                    perGender={per_gender_data}
-                    perWorkStart={per_work_start_data}
-                    data_schema={data_schema}/>
-			</div>
-		</MuiThemeProvider>)
-	}
+                <div style={{display: 'flex'}}>
+                    <MainContent compareId={1}/>
+                    {compare && <MainContent compareId={2}/>}
+                </div>
+            </div>
+        </MuiThemeProvider>)
+    }
 }
 
 export default App

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import CircularProgress from 'material-ui/CircularProgress'
 import Section from './Section'
 import * as d3 from 'd3'
@@ -8,9 +9,16 @@ import ChartTitle from './ChartTitle'
 
 export default class WorkStartSection extends Component {
 
+    static get contextTypes() {
+        return {
+            compareId: PropTypes.number
+        }
+    }
+
     renderGraph() {
 
         const {workStart, perWorkStart} = this.props
+        const {compareId} = this.context
 
         if (!workStart)
             return
@@ -116,10 +124,10 @@ export default class WorkStartSection extends Component {
 
 
         document
-            .getElementById('work-time-radial')
+            .getElementById('work-time-radial'+compareId)
             .innerHTML = ''
         const svg = d3
-            .select('#work-time-radial')
+            .select('#work-time-radial'+compareId)
             .append('svg')
             .attr('width', width)
             .attr('height', height)
@@ -252,6 +260,7 @@ export default class WorkStartSection extends Component {
 
     render() {
         const {index, up, down, data_schema} = this.props
+        const {compareId} = this.context
 
         setImmediate(this.renderGraph.bind(this))
 
@@ -277,7 +286,7 @@ export default class WorkStartSection extends Component {
                 text='Work starting time'
                 question={question}
             />
-            <div id='work-time-radial' className='flex-center'>
+            <div id={'work-time-radial'+compareId} className='flex-center'>
                 <CircularProgress />
             </div>
             <h5 style={{width: '100%', textAlign: 'center'}}>Legend : "I want to change the world"</h5>

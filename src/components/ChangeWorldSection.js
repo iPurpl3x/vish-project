@@ -1,12 +1,20 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import CircularProgress from 'material-ui/CircularProgress'
 import Section from './Section'
 import * as d3 from 'd3'
 
 export default class ChangeWorldSection extends Component {
 
+    static get contextTypes() {
+        return {
+            compareId: PropTypes.number
+        }
+    }
+
     renderGraph() {
         const {changeWorld} = this.props
+        const {compareId} = this.context
 
         if (!changeWorld)
             return
@@ -49,10 +57,10 @@ export default class ChangeWorldSection extends Component {
             .range([0.25, 1.2])
 
         document
-            .getElementById('change-world-chart')
+            .getElementById('change-world-chart'+compareId)
             .innerHTML = ''
         const svg = d3
-            .select("#change-world-chart")
+            .select("#change-world-chart"+compareId)
             .append("svg")
             .attr("width", width)
             .attr("height", height)
@@ -92,6 +100,7 @@ export default class ChangeWorldSection extends Component {
 
     render(){
         const {index, up, down, data_schema} = this.props
+        const {compareId} = this.context
 
         setImmediate(this.renderGraph.bind(this))
 
@@ -113,7 +122,7 @@ export default class ChangeWorldSection extends Component {
                     marginBottom: 20,
                     fontStyle: 'italic'
                 }} className='flex-center'>{data_schema?'"'+question+'"':''}</h3>
-                <div id='change-world-chart' className='flex-center'>
+                <div id={'change-world-chart'+compareId} className='flex-center'>
                     <CircularProgress />
                 </div>
             </Section>

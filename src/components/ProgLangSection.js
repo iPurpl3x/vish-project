@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import CircularProgress from 'material-ui/CircularProgress'
 import Section from './Section'
 import ReactBubbleChart from 'react-bubble-chart'
@@ -6,6 +7,12 @@ import ChartTitle from './ChartTitle'
 import renderBubbles from '../renderBubbles'
 
 export default class ProgLangSection extends Component {
+
+    static get contextTypes() {
+        return {
+            compareId: PropTypes.number
+        }
+    }
 
     render() {
         const {
@@ -17,10 +24,11 @@ export default class ProgLangSection extends Component {
             frameworkCounts,
             data_schema
         } = this.props
+        const {compareId} = this.context
 
-        setImmediate(renderBubbles.bind(this, progLangCounts, 'prog-lang-bubbles'))
-        setImmediate(renderBubbles.bind(this, onlineJobProfCounts, 'online-job-prof-bubbles'))
-        setImmediate(renderBubbles.bind(this, frameworkCounts, 'framework-bubbles'))
+        setImmediate(renderBubbles.bind(this, progLangCounts, 'prog-lang-bubbles'+compareId))
+        setImmediate(renderBubbles.bind(this, onlineJobProfCounts, 'online-job-prof-bubbles'+compareId))
+        setImmediate(renderBubbles.bind(this, frameworkCounts, 'framework-bubbles'+compareId))
 
         let progLangQuestion = ''
         if (data_schema) {
@@ -68,10 +76,10 @@ export default class ProgLangSection extends Component {
                         question={frameworkQuestion}
                         style={{width: '50%'}}
                     />
-                    <div id='prog-lang-bubbles' className='flex-center' style={{width: '50%'}}>
+                    <div id={'prog-lang-bubbles'+compareId} className='flex-center' style={{width: '50%'}}>
                         <CircularProgress />
                     </div>
-                    <div id='framework-bubbles' className='flex-center' style={{width: '50%'}}>
+                    <div id={'framework-bubbles'+compareId} className='flex-center' style={{width: '50%'}}>
                         <CircularProgress />
                     </div>
 
@@ -80,7 +88,7 @@ export default class ProgLangSection extends Component {
                         question={onlineJobProfQuestion}
                         style={{width: '100%', marginTop: 25}}
                     />
-                    <div id='online-job-prof-bubbles' className='flex-center' style={{width: '50%', flexGrow: 0}}>
+                    <div id={'online-job-prof-bubbles'+compareId} className='flex-center' style={{width: '50%', flexGrow: 0}}>
                         <CircularProgress />
                     </div>
                 </div>

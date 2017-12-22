@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import CircularProgress from 'material-ui/CircularProgress'
 import Section from './Section'
 import './AvgSalSection.css'
@@ -6,8 +7,15 @@ import * as d3 from 'd3'
 
 export default class AvgSalSection extends Component {
 
+    static get contextTypes() {
+        return {
+            compareId: PropTypes.number
+        }
+    }
+
     renderGraph() {
         const {perGender, genderCounts} = this.props
+        const {compareId} = this.context
 
         // If yet no data
         if (!Object.keys(perGender).length) return
@@ -57,9 +65,9 @@ export default class AvgSalSection extends Component {
         // append the svg object to the body of the page
         // append a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
-        document.getElementById('gender-bar-chart').innerHTML = ''
+        document.getElementById('gender-bar-chart'+compareId).innerHTML = ''
         let svg = d3
-            .select('#gender-bar-chart')
+            .select('#gender-bar-chart'+compareId)
             .append('svg')
             .attr('width', width + margin.left + margin.right)
             .attr('height', height + margin.top + margin.bottom)
@@ -139,9 +147,9 @@ export default class AvgSalSection extends Component {
             .scaleLinear()
             .range([0, width])
 
-        document.getElementById('gender-avg-sal').innerHTML = ''
+        document.getElementById('gender-avg-sal'+compareId).innerHTML = ''
         let sal_svg = d3
-            .select('#gender-avg-sal')
+            .select('#gender-avg-sal'+compareId)
             .append('svg')
             .attr('width', 80)
             .attr('height', height + margin.top + margin.bottom)
@@ -177,6 +185,7 @@ export default class AvgSalSection extends Component {
 
     render() {
         const {index, up, down, avgSalary, perGender} = this.props
+        const {compareId} = this.context
 
         setImmediate(this.renderGraph.bind(this))
 
@@ -204,10 +213,10 @@ export default class AvgSalSection extends Component {
         return (<Section index={index} id={index + '_s'} up={() => up(index)} down={() => down(index)}>
             <div className='Section-body'>
                 <div className='flex-center' style={{flexDirection: 'row'}}>
-                    <div id='gender-bar-chart' className='flex-center'>
+                    <div id={'gender-bar-chart'+compareId} className='flex-center'>
                         <CircularProgress />
                     </div>
-                    <div id='gender-avg-sal'></div>
+                    <div id={'gender-avg-sal'+compareId}></div>
                     <div id='gender-tooltip'></div>
                 </div>
                 <GlobalAvg avgSalary={avgSalary}/>
