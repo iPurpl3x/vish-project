@@ -39,7 +39,11 @@ export default class DataLoader extends Emitter {
     }
 
     changeCountry(country_name) {
-        const data = this._per_country[country_name]._data
+        let data
+        if (country_name)
+            data = this._per_country[country_name]._data
+        else
+            data = this._data_container._data
         const per_gender = {}
         utils.getCount(data, 'Gender', per_gender)
         this._per_gender = per_gender

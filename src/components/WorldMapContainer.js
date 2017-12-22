@@ -2,10 +2,13 @@ import React, {Component} from 'react'
 import Paper from 'material-ui/Paper'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
+import CircularProgress from 'material-ui/CircularProgress'
 import './WorldMapContainer.css'
 import { geoMercator, geoPath } from "d3-geo"
 import { feature } from "topojson-client"
 import * as d3 from "d3"
+import CountrySelectBar from './CountrySelectBar'
+
 
 /* TODO :
 use https://github.com/markmarkoh/datamaps */
@@ -99,10 +102,16 @@ class WorldMapContainer extends Component {
     }
 
     _handleChange = (event, index, value) => {
-        const countriesSort = Object.keys(this.props.perCountry).sort()
         const {handleChange, perCountry} = this.props
+        const countriesSort = Object.keys(perCountry).sort()
         this.setState({value})
         handleChange(countriesSort[value])
+    }
+
+    _handleEmpty = () => {
+        this.setState({value: undefined})
+        const {handleChange} = this.props
+        handleChange(undefined)
     }
 
     render() {
@@ -118,18 +127,14 @@ class WorldMapContainer extends Component {
         countriesSort.splice(index, 1)
         return (<div className='WorldMapContainer'>
             <Paper className='WorldMapContainer-paper'>
-                <h3>World map</h3>
 
                 {/* selectfield */}
-                <SelectField
-                    floatingLabelText="Countries"
+                <CountrySelectBar
                     value={this.state.value}
-                    onChange={this._handleChange}
-                >
-                    {countriesSort.map((country, i) =>(
-                        <MenuItem key={i} value={i} primaryText={country}/>
-                    ))}
-                </SelectField>
+                    handleChange={this._handleChange}
+                    list={countriesSort}
+                    empty={this._handleEmpty}
+                />
 
                 {/* worldmap */}
                 <svg width={ 1280 } height={ 720 } viewBox="0 0 900 300">
