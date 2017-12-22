@@ -44,7 +44,7 @@ class WorldMapContainer extends Component {
     }
 
     handleCountryClick(countryIndex) {
-        console.log('Clicked on country: ', this.state.worlddata[countryIndex])
+        //console.log('Clicked on country: ', this.state.worlddata[countryIndex])
     }
 
     handleMarkerClick(i) {
@@ -54,7 +54,7 @@ class WorldMapContainer extends Component {
 
     handleMarkerMouseOver(i, event) {
         //console.log('MouseOver: ', this.state.bubbles[i])
-        console.log(event.screenY)
+        //console.log(event.screenY)
         d3
             .select('#gender-tooltip')
             .style('left', event.screenX - 50 + 'px')
@@ -97,7 +97,7 @@ class WorldMapContainer extends Component {
                     return a.country - b.country
                 })
                 this.setState({bubbles: coordsarray, highestcount: highestcount})
-                console.log(coordsarray)
+                //console.log(coordsarray)
             }
         }
     }
@@ -148,7 +148,7 @@ class WorldMapContainer extends Component {
         const countriesSort = Object.keys(perCountry).sort()
         let index = countriesSort.indexOf('I prefer not to say');
         countriesSort.splice(index, 1)
-        
+
         return (<div className='WorldMapContainer'>
             <Paper className='WorldMapContainer-paper'>
 
