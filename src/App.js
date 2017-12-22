@@ -4,7 +4,7 @@ import './App.css'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import FlatButton from 'material-ui/FlatButton'
+import Toggle from 'material-ui/Toggle'
 import MainContent from './components/MainContent'
 
 const theme = {
@@ -21,9 +21,9 @@ class App extends Component {
         compare: false
     }
 
-    handleCompare = () => {
+    handleCompare = (event, isInputChecked) => {
         this.setState({
-            compare: !this.state.compare
+            compare: isInputChecked
         })
     }
 
@@ -36,10 +36,20 @@ class App extends Component {
                     showMenuIconButton={false}
                     title='Stack Overflow developer survey results visualisation'
                     iconElementRight={
-                        <FlatButton
-                            label='compare'
-                            onClick={this.handleCompare}
-                        />}
+                        <div style={{
+                            background: 'rgba(255,255,255,0.3)',
+                            borderRadius: 3,
+                            margin: '7px 0',
+                            cursor: 'pointer',
+                            padding: '5px 10px'
+                        }}>
+                            <Toggle
+                                label='compare'
+                                onToggle={this.handleCompare}
+                                labelStyle={{color: 'white'}}
+                                labelPosition='right'
+                            />
+                        </div>}
                     style={{
                         width: '100%',
                         marginBottom: 6
