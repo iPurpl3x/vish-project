@@ -106,6 +106,8 @@ class Sections extends Component {
                             up={this._up}
                             down={this._down}
                             progLangCounts={dataContainer.prog_lang}
+                            onlineJobProfCounts={dataContainer.online_job_profile}
+                            frameworkCounts={dataContainer.framework}
                         />
                     )
             }

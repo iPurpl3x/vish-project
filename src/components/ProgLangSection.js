@@ -6,65 +6,120 @@ import ReactBubbleChart from 'react-bubble-chart'
 
 export default class ProgLangSection extends Component {
 
-    renderProgLang() {
-
-        const {progLangCounts} = this.props
+    renderBubbles(_data, _id) {
 
         // If yet no data
-        if (!Object.keys(progLangCounts || {}).length) return
+        if (!Object.keys(_data || {}).length)
+            return
 
         const data = []
-        let highestCount = 0
         let totalCount = 0
-        for (let lang of Object.keys(progLangCounts)) {
-            data.push({
-                lang,
-                count: progLangCounts[lang]
-            })
-            totalCount += progLangCounts[lang]
-            if (progLangCounts[lang] > highestCount) {
-                highestCount = progLangCounts[lang]
-            }
+        for (let key of Object.keys(_data)) {
+            data.push({id: key, value: _data[key]})
+            totalCount += _data[key]
         }
 
-        const width = document.getElementById('prog-lang-bubbles').offsetWidth
+        const width = document
+            .getElementById(_id)
+            .offsetWidth
 
-        const colorCircles = d3.scaleOrdinal(['#0B4F6C', '#01BAEF', '#20BF55', '#757575'])
+        const colorCircles = d3.scaleOrdinal([
+            '#0B4F6C',
+            '#01BAEF',
+            '#20BF55',
+            '#757575',
+            '#EF6461',
+            '#5F00BA',
+            '#3A4F41'
+        ])
 
-        document.getElementById('prog-lang-bubbles').innerHTML = ''
-        const svg = d3.select('#prog-lang-bubbles')
+        document
+            .getElementById(_id)
+            .innerHTML = ''
+        const svg = d3
+            .select('#' + _id)
             .append('svg')
             .attr('width', width)
             .attr('height', width)
-            .append('g')
-            .attr('transform', 'translate(' + width / 2 + ',' + width / 2 + ')')
 
-        const scaleRadius = d3
-            .scaleSqrt()
-            .domain([0, highestCount])
-            .range([2, 25])
+        const pack = d3
+            .pack()
+            .size([width, width])
+            .padding(1)
+
+        const root = d3
+            .hierarchy({children: data})
+            .sum(d => d.value)
+            .each(d => d.id = d.data.id)
+
+        const node = svg.selectAll('.node')
+          .data(pack(root).leaves())
+          .enter().append('g')
+            .attr('class', 'node')
+            .attr('transform', d => 'translate(' + d.x + ',' + d.y + ')')
+
+        node
+            .append('circle')
+            .attr('id', d => d.id)
+            .attr('r', d => d.r)
+            .style('fill', d => colorCircles(d.id))
+
+        node
+            .append('clipPath')
+            .attr('id', d => 'clip-' + d.id)
+            .append('use')
+            .attr('xlink:href', d => '#' + d.id)
+
+        node
+            .append('text')
+            .attr('clip-path', d => 'url(#clip-' + d.id + ')')
+            .selectAll('tspan')
+            .data(d => {
+                console.log(d.id, d.r)
+                if (d.r < 30 || d.r < 38 && d.id.length > 7)
+                    return []
+                else
+                    return d.id.split(' ')
+            })
+            .enter()
+            .append('tspan')
+            .attr('x', d => -((d.length / 2) * 7.5))
+            .attr('y', (d, i, nodes) => 13 + (i - nodes.length / 2 - 0.5) * 10)
+            .attr('font-family', 'monospace')
+            .attr('fill', 'white')
+            .text(d => d)
 
     }
 
     render() {
-        const {index, up, down, progLangCounts} = this.props
+        const {index, up, down, progLangCounts, onlineJobProfCounts, frameworkCounts} = this.props
 
-        setImmediate(this.renderProgLang.bind(this))
+        setImmediate(this.renderBubbles.bind(this, progLangCounts, 'prog-lang-bubbles'))
+        setImmediate(this.renderBubbles.bind(this, onlineJobProfCounts, 'online-job-prof-bubbles'))
+        setImmediate(this.renderBubbles.bind(this, frameworkCounts, 'framework-bubbles'))
 
         return (
             <Section
                 index={index}
                 up={() => up(index)}
                 down={() => down(index)}>
-                <h3>{'Online job profile, Programming language & framework'}</h3>
-                <div className='flex-center' style={{flexDirection: 'row'}}>
-                    <div id='online-job-prof-bubbles' className='flex-center' style={{width: '33%'}}>
+                <div className='flex-center' style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                    <h3 className='flex-center' style={{width: '50%'}}>
+                        Programming language
+                    </h3>
+                    <h3 className='flex-center' style={{width: '50%'}}>
+                        Framework
+                    </h3>
+                    <div id='prog-lang-bubbles' className='flex-center' style={{width: '50%'}}>
                         <CircularProgress />
                     </div>
-                    <div id='prog-lang-bubbles' className='flex-center' style={{width: '33%'}}>
+                    <div id='framework-bubbles' className='flex-center' style={{width: '50%'}}>
                         <CircularProgress />
                     </div>
-                    <div id='framework-bubbles' className='flex-center' style={{width: '33%'}}>
+                    <h3 className='flex-center' style={{width: '100%', marginTop: 25}}>
+                        Online job profile
+                    </h3>
+                    <div id='online-job-prof-bubbles' className='flex-center' style={{width: '50%', flexGrow: 0}}>
                         <CircularProgress />
                     </div>
                 </div>
