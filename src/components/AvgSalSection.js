@@ -202,7 +202,6 @@ export default class AvgSalSection extends Component {
         const yTicks = [10, '%']
 
         return (<Section index={index} id={index + '_s'} up={() => up(index)} down={() => down(index)}>
-            {/* <h3>{'Average salary'}</h3> */}
             <div className='Section-body'>
                 <div className='flex-center' style={{flexDirection: 'row'}}>
                     <div id='gender-bar-chart' className='flex-center'>

@@ -86,6 +86,7 @@ class Sections extends Component {
                             up={this._up}
                             down={this._down}
                             perWorkStart={perWorkStart}
+                            data_schema={data_schema}
                             workStart={dataContainer.work_start}
                         />
                     )
@@ -105,6 +106,7 @@ class Sections extends Component {
                             index={i}
                             up={this._up}
                             down={this._down}
+                            data_schema={data_schema}
                             progLangCounts={dataContainer.prog_lang}
                             onlineJobProfCounts={dataContainer.online_job_profile}
                             frameworkCounts={dataContainer.framework}

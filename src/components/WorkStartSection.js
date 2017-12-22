@@ -3,6 +3,8 @@ import CircularProgress from 'material-ui/CircularProgress'
 import Section from './Section'
 import * as d3 from 'd3'
 import moment from 'moment'
+import ChartTitle from './ChartTitle'
+
 
 export default class WorkStartSection extends Component {
 
@@ -249,12 +251,25 @@ export default class WorkStartSection extends Component {
 
 
     render() {
-        const {index, up, down} = this.props
+        const {index, up, down, data_schema} = this.props
 
         setImmediate(this.renderGraph.bind(this))
 
+        let question = ''
+        if (data_schema) {
+            for (let q of data_schema) {
+                if (q.Column == 'WorkStart'){
+                    question = q.Question
+                    break
+                }
+            }
+        }
+
         return (<Section index={index} up={() => up(index)} down={() => down(index)}>
-            <h3>{'Work starting time'}</h3>
+            <ChartTitle
+                text='Work starting time'
+                question={question}
+            />
             <div id='work-time-radial' className='flex-center'>
                 <CircularProgress />
             </div>
