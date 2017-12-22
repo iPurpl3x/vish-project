@@ -265,6 +265,13 @@ export default class WorkStartSection extends Component {
             }
         }
 
+        const legendItemStyle = {
+            border: '1px solid grey',
+            maxWidth: 'calc(100% / 6 - 40px)',
+            height: 37,
+            fontSize: 13
+        }
+
         return (<Section index={index} up={() => up(index)} down={() => down(index)}>
             <ChartTitle
                 text='Work starting time'
@@ -272,6 +279,36 @@ export default class WorkStartSection extends Component {
             />
             <div id='work-time-radial' className='flex-center'>
                 <CircularProgress />
+            </div>
+            <h5 style={{width: '100%', textAlign: 'center'}}>Legend : "I want to change the world"</h5>
+            <div className='flex-center' style={{
+                flexDirection: 'row',
+                flexGrow: 0
+            }}>
+                <div className='flex-center'
+                    style={legendItemStyle}>
+                    NA
+                </div>
+                <div className='flex-center'
+                    style={{...legendItemStyle, background: 'rgb(32, 191, 85)'}}>
+                    Strongly agree
+                </div>
+                <div className='flex-center'
+                    style={{...legendItemStyle, background: 'rgba(32, 191, 85, 0.825)'}}>
+                    Agree
+                </div>
+                <div className='flex-center'
+                    style={{...legendItemStyle, background: 'rgba(32, 191, 85, 0.6)'}}>
+                    Somewhat agree
+                </div>
+                <div className='flex-center'
+                    style={{...legendItemStyle, background: 'rgba(32, 191, 85, 0.375)'}}>
+                    Disagree
+                </div>
+                <div className='flex-center'
+                    style={{...legendItemStyle, background: 'rgba(32, 191, 85, 0.15)'}}>
+                    Strongly disagree
+                </div>
             </div>
         </Section>)
     }
