@@ -6,6 +6,7 @@
 # names of all team members
 
     * Rafael Horvat
+
     * Simon Meyer
 
 
@@ -44,13 +45,33 @@
 
     * Run a python web server in root directory (python3 -m http.server 8080)
 
+    * Click on a bubble on the world map to load the data for the selected country
+
+    * Click on the (X) next to the selected country to get the global data
+
+    * Click the compare button to get a second instance to compare two different countries
+
+    * Hover over the charts/bars/bubbles to get detailed information
+
+    * Use the Up/Down-Arrows to change the position of the attribute containers
+
+    * Click on the speech bubble to see the questions from the survey for each attribute
+
 
 # brief list of implemented visualization techniques
+
     * world map
+
     * bar chart
+
     * stacked bar chart
+
     * clock combined with color gradient
+
     * bubble chart
+
     * hover
+
     * flexible attribute containers
+
     * comparison
