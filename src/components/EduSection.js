@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import CircularProgress from 'material-ui/CircularProgress'
 import Section from './Section'
-import ReactBubbleChart from 'react-bubble-chart'
 import ChartTitle from './ChartTitle'
 import renderBubbles from '../renderBubbles'
 
